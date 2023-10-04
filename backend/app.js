@@ -8,6 +8,7 @@ const errorHandler = require("./utils/errorHandler");
 
 const userRouter = require("./routes/user");
 const newsRouter = require("./routes/news");
+const newsTagRouter = require("./routes/news_tag");
 const tagRouter = require("./routes/tag");
 
 const app = express();
@@ -18,6 +19,7 @@ app.use(bodyParser.json({}));
 // application routes
 app.use("/users", userRouter);
 app.use("/news", newsRouter);
+app.use("/news", newsTagRouter);
 app.use("/tag", tagRouter);
 
 // error handlers

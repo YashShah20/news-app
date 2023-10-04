@@ -1,4 +1,5 @@
 const NewsService = require("../services/news");
+const NewsTagService = require("../services/news_tag");
 const LocationService = require("../services/location");
 
 const getNewsByCity = async (req, res, next) => {
@@ -12,21 +13,24 @@ const getNewsByCity = async (req, res, next) => {
     next(error);
   }
 };
+
 const getNewsDetails = async (req, res, next) => {
   try {
     const { news_id } = req.params;
 
-    const newsDetails = await NewsService.getNewsById(news_id);
+    const news_details = await NewsService.getNewsById(news_id);
 
-    res.send(newsDetails);
+    const news_tags = await NewsTagService.getNewsTagsByNewsId(news_id);
+    res.send({ ...news_details, news_tags });
   } catch (error) {
     next(error);
   }
 };
+
 const addNews = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const { title, description, thumbnail_url } = req.body;
+    const { title, description, thumbnail_url, tags } = req.body;
 
     const ip = req.ip;
 
@@ -41,11 +45,16 @@ const addNews = async (req, res, next) => {
       id
     );
 
+    if (tags) {
+      NewsTagService.addNewsTags(news.id, tags);
+    }
+
     res.send(news);
   } catch (error) {
     next(error);
   }
 };
+
 const updateNews = async (req, res, next) => {
   try {
     const { id: user_id } = req.user;
@@ -72,6 +81,7 @@ const updateNews = async (req, res, next) => {
     next(error);
   }
 };
+
 const deleteNews = async (req, res, next) => {
   try {
     const { id: user_id } = req.user;
