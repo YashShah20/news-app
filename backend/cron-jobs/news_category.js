@@ -32,7 +32,7 @@ const fetchTrendingNewsCategories = async () => {
 
 const job = new CronJob(
   // every 6:00 AM on 1st day of the month
-  "* * * * *",
+  "0 6 1 * *",
   fetchTrendingNewsCategories,
   null,
   true,
