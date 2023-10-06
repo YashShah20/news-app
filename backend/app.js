@@ -10,6 +10,8 @@ const userRouter = require("./routes/user");
 const newsRouter = require("./routes/news");
 const newsTagRouter = require("./routes/news_tag");
 const tagRouter = require("./routes/tag");
+const categoryRouter = require("./routes/category");
+const globalNewsRouter = require("./routes/global_news");
 
 const app = express();
 
@@ -21,6 +23,8 @@ app.use("/users", userRouter);
 app.use("/news", newsRouter);
 app.use("/news", newsTagRouter);
 app.use("/tag", tagRouter);
+app.use("/category", categoryRouter);
+app.use("/global-news", globalNewsRouter);
 
 // error handlers
 app.use(logErrors);
