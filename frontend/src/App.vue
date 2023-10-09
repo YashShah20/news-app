@@ -1,16 +1,13 @@
 <template>
-  <div class="">Hello World</div>
+  <div>
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
-
 export default {
-  name: 'App',
-  components: {
-  }
-}
+  name: "App"
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
