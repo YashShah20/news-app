@@ -1,7 +1,7 @@
 import api from "./api";
 
-export default {
-  getCategories() {
-    return api.get("/category");
-  },
+const getCategories = () => {
+  return api.get("/category");
 };
+
+export { getCategories };
