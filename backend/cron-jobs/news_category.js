@@ -9,15 +9,15 @@ const fetchTrendingNewsCategories = async () => {
       InshortsAPIService.getNewsCategories(),
     ]);
 
-    const stored_categories_labels = stored_categories.map(
-      (stored_category) => stored_category.label
+    const stored_categories_tags = stored_categories.map(
+      (stored_category) => stored_category.tag
     );
 
     const new_categories = latest_categories.filter(
-      (category) => !stored_categories_labels.includes(category.label)
+      (category) => !stored_categories_tags.includes(category.tag)
     );
 
-    console.log(new_categories.length);
+    // console.log(new_categories.length);
 
     if (new_categories.length > 0) {
       console.log(`${new_categories.length} categories will be added`);

@@ -30,7 +30,7 @@ const getNewsDetails = async (req, res, next) => {
 const addNews = async (req, res, next) => {
   try {
     const { id } = req.user;
-    const { title, description, thumbnail_url, tags } = req.body;
+    const { title, content, image_url, tags } = req.body;
 
     const ip = req.ip;
 
@@ -38,8 +38,8 @@ const addNews = async (req, res, next) => {
 
     const news = await NewsService.addNews(
       title,
-      description,
-      thumbnail_url,
+      content,
+      image_url,
       city,
       country,
       id
@@ -59,7 +59,7 @@ const updateNews = async (req, res, next) => {
   try {
     const { id: user_id } = req.user;
     const { news_id } = req.params;
-    const { title, description, thumbnail_url, city, country } = req.body;
+    const { title, content, image_url, city, country } = req.body;
 
     const news_creator = await NewsService.getNewsCreatorId(news_id);
     if (user_id != news_creator) {
@@ -70,8 +70,8 @@ const updateNews = async (req, res, next) => {
     const news = await NewsService.updateNewsById(
       news_id,
       title,
-      description,
-      thumbnail_url,
+      content,
+      image_url,
       city,
       country
     );

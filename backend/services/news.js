@@ -4,7 +4,7 @@ module.exports = {
   async getNewsByCity(city) {
     try {
       const result = await query(
-        `SELECT id, title, description, thumbnail_url, city, country, created_by, created_on
+        `SELECT id, title, content, image_url, city, country, created_by, created_on
 	        FROM public.local_news WHERE city = $1`,
         [city]
       );
@@ -17,7 +17,7 @@ module.exports = {
   async getNewsById(id) {
     try {
       const result = await query(
-        `SELECT id, title, description, thumbnail_url, city, country, created_by, created_on
+        `SELECT id, title, content, image_url, city, country, created_by, created_on
 	        FROM public.local_news WHERE id = $1`,
         [id]
       );
@@ -27,13 +27,13 @@ module.exports = {
     }
   },
 
-  async addNews(title, description, thumbnail_url, city, country, created_by) {
+  async addNews(title, content, image_url, city, country, created_by) {
     try {
       const result = await query(
         `INSERT INTO public.local_news(
-            title, description, thumbnail_url, city, country, created_by)
+            title, content, image_url, city, country, created_by)
             VALUES ($1, $2, $3, $4, $5, $6) RETURNING *`,
-        [title, description, thumbnail_url, city, country, created_by]
+        [title, content, image_url, city, country, created_by]
       );
       return result.rows[0];
     } catch (error) {
@@ -41,13 +41,13 @@ module.exports = {
     }
   },
 
-  async updateNewsById(id, title, description, thumbnail_url, city, country) {
+  async updateNewsById(id, title, content, image_url, city, country) {
     try {
       const result = await query(
         `UPDATE public.local_news
-            SET title=$2, description=$3, thumbnail_url=$4, city=$5, country=$6
+            SET title=$2, content=$3, image_url=$4, city=$5, country=$6
             WHERE id=$1 RETURNING *`,
-        [id, title, description, thumbnail_url, city, country]
+        [id, title, content, image_url, city, country]
       );
       return result.rows[0];
     } catch (error) {

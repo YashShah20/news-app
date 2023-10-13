@@ -3,7 +3,10 @@ const errorHandler = (error, req, res, next) => {
     if (res.headersSent) {
       return res.send({ error: error.message });
     }
-    return res.status(res.statusCode || 500).send({ error: error.message });
+    const statusCode = res.statusCode >= 400 ? res.statusCode : 500;
+    const message =
+      statusCode === 500 ? "internal server error" : error.message;
+    return res.status(statusCode).send({ error: message });
   }
   next();
 };

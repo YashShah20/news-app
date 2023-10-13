@@ -30,10 +30,20 @@ const vuetify = createVuetify({
   },
 });
 
+import ToastPlugin from "vue-toast-notification";
+import "vue-toast-notification/dist/theme-bootstrap.css";
+
 const app = createApp(App);
 
 app.use(vuetify);
 app.use(store);
 app.use(router);
+app.use(ToastPlugin, {
+  // One of the options
+  position: "bottom-right",
+});
 
 app.mount("#app");
+store.dispatch("init");
+store.dispatch("category/init");
+store.dispatch("location/init");

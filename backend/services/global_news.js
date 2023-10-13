@@ -8,7 +8,7 @@ module.exports = {
 
       const result = await query(
         `SELECT global_news.id, title, content, global_news.image_url, source_name, source_url, author_name, created_on, categories.label
-          FROM public.global_news JOIN public.categories ON categories.id = global_news.category ORDER BY global_news.id LIMIT $1 OFFSET $2;`,
+          FROM public.global_news JOIN public.categories ON categories.tag = global_news.category ORDER BY global_news.created_on DESC LIMIT $1 OFFSET $2;`,
         [limit, offset]
       );
 
@@ -24,7 +24,7 @@ module.exports = {
 
       const result = await query(
         `SELECT global_news.id, title, content, global_news.image_url, source_name, source_url, author_name, created_on, categories.label
-          FROM public.global_news JOIN public.categories ON categories.id = global_news.category WHERE category = $1 ORDER BY global_news.id LIMIT $2 OFFSET $3;`,
+          FROM public.global_news JOIN public.categories ON categories.tag = global_news.category WHERE category = $1 ORDER BY global_news.created_on DESC LIMIT $2 OFFSET $3;`,
         [category, limit, offset]
       );
 
