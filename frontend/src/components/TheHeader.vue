@@ -28,12 +28,12 @@
               class="cursor-pointer"
               prepend-icon="mdi-compass"
               variant="text"
-              :to="{name:'category-list'}"
+              :to="{ name: 'category-list' }"
             >
               All Categories
             </v-btn>
           </v-list-item>
-          <v-list-item>
+          <!-- <v-list-item>
             <v-btn
               class="cursor-pointer"
               prepend-icon="mdi-account"
@@ -41,7 +41,7 @@
             >
               Profile
             </v-btn>
-          </v-list-item>
+          </v-list-item> -->
 
           <v-list-item>
             <v-btn
@@ -67,7 +67,6 @@
   </v-toolbar>
 </template>
 <script>
-
 export default {
   name: "the-header",
   data() {

@@ -76,6 +76,8 @@ export default {
   },
   methods: {
     signin() {
+      this.v$.credentials.$touch();
+      
       if (this.v$.credentials.$invalid) {
         return;
       }

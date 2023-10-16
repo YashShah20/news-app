@@ -14,7 +14,7 @@ import PageNotFound from "@/pages/PageNotFound.vue";
 export default [
   {
     path: "/",
-    redirect: { name: "news-list" },
+    redirect: { name: "category-list" },
     name: "home",
   },
   {
@@ -32,7 +32,7 @@ export default [
         beforeEnter: () => {
           const loggedIn = store.getters.isLoggedIn;
           if (!loggedIn) {
-            return { name: "home" };
+            return { name: "category-list" };
           }
         },
       },

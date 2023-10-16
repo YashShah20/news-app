@@ -1,9 +1,10 @@
 <template>
-  <news-item
-    v-for="news_item in news"
-    :key="news_item.id"
-    :news="news_item"
-  ></news-item>
+  <news-item v-for="news_item in news" :key="news_item.id" :news="news_item">
+    <template #location>
+      <v-icon icon="mdi-map-marker" start> </v-icon>
+      <span> {{ news_item.city }}, {{ news_item.country }} </span>
+    </template>
+  </news-item>
   <add-news @add-news="addNews"></add-news>
 </template>
 

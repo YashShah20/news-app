@@ -93,7 +93,14 @@
 
 <script>
 import { useVuelidate } from "@vuelidate/core";
-import { required, email, sameAs } from "@vuelidate/validators";
+import {
+  required,
+  email,
+  sameAs,
+  helpers,
+  minLength,
+  maxLength,
+} from "@vuelidate/validators";
 
 import { signup } from "../../services/userApi";
 import fetch from "../../mixins/fetch";
@@ -108,8 +115,8 @@ export default {
         first_name: null,
         last_name: null,
         username: null,
-        email: "yashshah@gmail.com",
-        password: "abc",
+        email: null,
+        password: null,
         confirm_password: null,
       },
     };
@@ -119,8 +126,14 @@ export default {
       user: {
         first_name: {
           required,
+          minLength: minLength(2),
+          maxLength: maxLength(30),
         },
-        last_name: {},
+        last_name: {
+          optional: !helpers.req(),
+          minLength: minLength(2),
+          maxLength: maxLength(30),
+        },
         username: {},
         email: {
           required,
@@ -128,15 +141,17 @@ export default {
         },
         password: {
           required,
+          minLength: minLength(8),
         },
         confirm_password: {
-          sameAsPassword: sameAs(this.user.password,"password"),
+          sameAsPassword: sameAs(this.user.password, "password"),
         },
       },
     };
   },
   methods: {
     signup() {
+      this.v$.user.$touch();
       if (this.v$.user.$invalid) {
         return;
       }

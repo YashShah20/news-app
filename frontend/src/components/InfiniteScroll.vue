@@ -24,9 +24,9 @@ export default {
   },
   methods: {
     onscroll() {
-      const bottomOfPage =
+      const isBottomOfPage =
         window.innerHeight + window.scrollY >= document.body.offsetHeight;
-      if (bottomOfPage && !this.loading) {
+      if (isBottomOfPage && !this.loading) {
         // console.log(window.innerHeight + window.scrollY);
         this.load();
       }

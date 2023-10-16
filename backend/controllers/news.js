@@ -1,6 +1,7 @@
 const NewsService = require("../services/news");
 const NewsTagService = require("../services/news_tag");
 const LocationService = require("../services/location");
+const dayjs = require("dayjs");
 
 const getNewsByCity = async (req, res, next) => {
   try {
@@ -8,7 +9,23 @@ const getNewsByCity = async (req, res, next) => {
     const { city } = await LocationService.getLocationFromIP();
 
     const news = await NewsService.getNewsByCity(city);
-    res.send(news);
+
+    const news_with_tags = await Promise.all(
+      news.map(async (news_item) => {
+        const author_name = `${news_item.author_first_name} ${news_item.author_last_name}`;
+        const created_on = dayjs(+news_item.created_on).format(
+          "dddd - DD MMMM, YYYY"
+        );
+
+        const news_tags = await NewsTagService.getNewsTagsByNewsId(
+          news_item.id
+        );
+
+        const tags = news_tags.map((tag) => tag.name);
+        return { ...news_item, created_on, author_name, tags };
+      })
+    );
+    res.send(news_with_tags);
   } catch (error) {
     next(error);
   }
@@ -48,6 +65,13 @@ const addNews = async (req, res, next) => {
     if (tags) {
       NewsTagService.addNewsTags(news.id, tags);
     }
+
+    // const author_name = `${news.author_first_name} ${news.author_last_name}`;
+    // const created_on = dayjs(+news.created_on).format(
+    //   "dddd - DD MMMM, YYYY"
+    // );
+
+    // const news_tags = tags.map((tag) => tag.name);
 
     res.send(news);
   } catch (error) {

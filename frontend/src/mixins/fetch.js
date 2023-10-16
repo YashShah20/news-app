@@ -6,16 +6,38 @@ export default {
     };
   },
   methods: {
-    async _fetch(fn, params, callback, errorCallback) {
+    async _fetch(
+      fn,
+      params,
+      callback,
+      errorCallback,
+      errorCallbackOnly = false
+    ) {
       try {
         this.isLoading = true;
         const response = await fn(...params);
         callback(response.data);
-      } catch (error) {
-        this.error = error?.response?.data?.error || "Something went wrong";
-        this.$toast.error(this.error);
-        if (errorCallback) {
-          errorCallback();
+      } catch (e) {
+        const error = e?.response?.data?.error || "Something went wrong";
+
+        if (errorCallbackOnly) {
+          errorCallback(error);
+        } else {
+          switch (typeof error) {
+            case "string":
+              this.error = e;
+              this.$toast.error(this.error);
+
+              break;
+            case "object":
+              if (Array.isArray(error)) {
+                error.forEach((errorObj) => {
+                  const message = `${errorObj.msg} for field ${errorObj.path}`;
+                  this.$toast.error(message);
+                });
+              }
+              break;
+          }
         }
       } finally {
         this.isLoading = false;

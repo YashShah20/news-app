@@ -1,7 +1,7 @@
 <template>
   <infinite-scroll :load="fetchNews" :isLoading="isLoading">
     <news-item v-for="news_item in news" :key="news_item.id" :news="news_item">
-      <template #actions>
+      <template #source>
         <v-card-title>{{ news_item.source_name }}</v-card-title>
         <v-card-actions>
           <v-btn

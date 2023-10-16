@@ -4,8 +4,8 @@ module.exports = {
   async getNewsByCity(city) {
     try {
       const result = await query(
-        `SELECT id, title, content, image_url, city, country, created_by, created_on
-	        FROM public.local_news WHERE city = $1`,
+        `SELECT local_news.id, title, content, image_url, city, country, first_name as author_first_name, last_name as author_last_name, created_on
+	        FROM public.local_news JOIN users ON users.id = local_news.created_by WHERE city = $1 ORDER BY created_on DESC`,
         [city]
       );
       return result.rows;

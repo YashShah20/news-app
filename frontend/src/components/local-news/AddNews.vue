@@ -18,6 +18,20 @@
           <span class="text-h4">Add Your News</span>
         </v-card-title>
         <v-card-title>
+          <v-alert
+            v-for="error in errors"
+            :key="error.msg"
+            closable
+            size="small"
+            class="my-2"
+            :text="error.msg"
+            density="compact"
+            border="start"
+            color="red-lighten-4"
+            border-color="red-darken-4"
+          ></v-alert>
+        </v-card-title>
+        <v-card-title>
           <v-chip prepend-icon="mdi-map-marker" color="black" variant="text">
             {{ location.city }}, {{ location.country }}
           </v-chip>
@@ -25,39 +39,52 @@
         <v-card-text>
           <v-form @submit.prevent="addNews">
             <v-text-field
-              v-model="news.title"
-              variant="solo-filled"
-              elevation="2"
               label="Title"
               prepend-inner-icon="mdi-format-title"
+              variant="solo-filled"
+              elevation="2"
+              v-model="news.title"
+              :error-messages="v$.news.title.$errors.map((e) => e.$message)"
+              @input="v$.news.title.$touch"
+              :class="{ 'mb-4': v$.news.title.$invalid }"
             ></v-text-field>
             <v-textarea
-              v-model="news.content"
+              label="Content"
+              prepend-inner-icon="mdi-file-document"
               variant="solo-filled"
               elevation="2"
               counter="500"
-              label="Content"
-              prepend-inner-icon="mdi-file-document"
+              auto-grow
               rows="5"
               class="mb-2"
+              v-model="news.content"
+              :error-messages="v$.news.content.$errors.map((e) => e.$message)"
+              @input="v$.news.content.$touch"
+              :class="{ 'mb-4': v$.news.content.$invalid }"
             ></v-textarea>
             <v-text-field
+              label="Thumbnail URL"
               prepend-inner-icon="mdi-image"
-              v-model="news.image_url"
               variant="solo-filled"
               elevation="2"
-              label="Thumbnail URL"
+              v-model="news.image_url"
+              :error-messages="v$.news.image_url.$errors.map((e) => e.$message)"
+              @input="v$.news.image_url.$touch"
+              :class="{ 'mb-4': v$.news.image_url.$invalid }"
             ></v-text-field>
             <v-autocomplete
+              label="Tags"
               prepend-inner-icon="mdi-tag-multiple"
-              v-model="news.tags"
               variant="solo-filled"
               elevation="2"
-              :items="tagOptions"
-              label="Tags"
               chips
               deletable-chips
               multiple
+              :items="tagOptions"
+              v-model="news.tags"
+              :error-messages="v$.news.tags.$errors.map((e) => e.$message)"
+              @input="v$.news.tags.$touch"
+              :class="{ 'mb-4': v$.news.tags.$invalid }"
             >
             </v-autocomplete>
             <div class="d-flex flex-row-reverse">
@@ -76,7 +103,19 @@
 import fetch from "@/mixins/fetch";
 import { addLocalNews } from "@/services/localNewsApi";
 import { getTags } from "@/services/tagApi";
+import { useVuelidate } from "@vuelidate/core";
+import {
+  required,
+  minLength,
+  maxLength,
+  url,
+  // helpers,
+} from "@vuelidate/validators";
+// import { isImage } from "@/services/image";
 export default {
+  setup() {
+    return { v$: useVuelidate() };
+  },
   mixins: [fetch],
   data() {
     return {
@@ -91,6 +130,37 @@ export default {
         tags: ["2"],
       },
       tagOptions: [],
+      errors: [],
+    };
+  },
+  validations() {
+    return {
+      news: {
+        title: {
+          required,
+          minLength: minLength(10),
+        },
+        content: {
+          required,
+          minLength: minLength(10),
+          maxLength: maxLength(500),
+        },
+        image_url: {
+          required,
+          url,
+          // isImage: helpers.withAsync(isImage),
+          // custom: {
+          //   options: async (value) => {
+          //     const result = await isImage(value);
+          //     console.log(result);
+          //     return Promise.reject("invalid image");
+          //   },
+          // },
+        },
+        tags: {
+          required,
+        },
+      },
     };
   },
   created() {
@@ -101,17 +171,36 @@ export default {
 
   methods: {
     addNews() {
+      this.v$.news.$touch();
+      if (this.v$.news.$invalid) {
+        return;
+      }
+
       const callback = (news) => {
-        this.$emit("add-news", news);
         this.close();
+        this.$emit("add-news", news);
+        this.reset();
+        this.v$.news.$reset();
         this.$toast.success("News added");
       };
 
       const params = [this.news];
-      this._fetch(addLocalNews, params, callback);
+
+      const errorCallback = (errors) => {
+        this.errors = errors;
+      };
+      this._fetch(addLocalNews, params, callback, errorCallback, true);
     },
     close() {
       this.dialog = false;
+    },
+    reset() {
+      this.news = {
+        title: null,
+        content: null,
+        image_url: null,
+        tags: null,
+      };
     },
     fetchTagOptions() {
       const callback = (options) => {

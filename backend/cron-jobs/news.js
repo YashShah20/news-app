@@ -97,7 +97,7 @@ const fetchNews = async () => {
 };
 const fetchNewsJob = new CronJob(
   // At every 5th minute.
-  "*/10 * * * * *",
+  "*/5 * * * *",
   fetchNews,
   null,
   true,
