@@ -1,5 +1,5 @@
-// const dotenv = require("dotenv");
-// dotenv.config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 const { CronJob } = require("cron");
 const CategoryService = require("../services/category");
@@ -20,8 +20,8 @@ const initializeCategories = async () => {
   try {
     const stored_categories = await CategoryService.getCategories();
     category.items = stored_categories.map(
-      ({ id, label, total_page, current_page }) => ({
-        tag: id,
+      ({ tag, label, total_page, current_page }) => ({
+        tag,
         label,
         total_page,
         current_page,

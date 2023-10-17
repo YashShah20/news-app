@@ -1,4 +1,4 @@
-const { getUserByEmail, addUser } = require("../services/user");
+const UserService = require("../services/user");
 const { compare, hash } = require("../utils/bcrypt");
 const { sign } = require("../utils/jwt");
 
@@ -6,7 +6,7 @@ const signin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
-    const user = await getUserByEmail(email);
+    const user = await UserService.getUserByEmail(email);
 
     if (!user) {
       throw new Error("invalid credentials");
@@ -35,7 +35,7 @@ const signup = async (req, res, next) => {
 
     const hashedPassword = await hash(password);
 
-    const user = await addUser(
+    const user = await UserService.addUser(
       first_name,
       last_name,
       username,
@@ -51,4 +51,17 @@ const signup = async (req, res, next) => {
   }
 };
 
-module.exports = { signin, signup };
+const changePassword = async (req, res, next) => {
+  try {
+    const { id } = req.user;
+    const { new_password } = req.body;
+
+    const hashedPassword = await hash(new_password);
+    UserService.updatePasswordById(id, hashedPassword);
+
+    res.json({ success: true });
+  } catch (error) {
+    next(error);
+  }
+};
+module.exports = { signin, signup, changePassword };

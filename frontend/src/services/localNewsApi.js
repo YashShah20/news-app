@@ -1,22 +1,22 @@
 import api from "./api";
 
-getLocalNews = () => {
+const getLocalNews = () => {
   return api.get("/news");
 };
 
-getNewsDetails = (id) => {
+const getNewsDetails = (id) => {
   return api.get(`/news/${id}`);
 };
 
-addLocalNews = (news) => {
+const addLocalNews = (news) => {
   return api.post("/news/add", news);
 };
 
-updateLocalNews = (id, news) => {
+const updateLocalNews = (id, news) => {
   return api.put(`/news/update/${id}`, news);
 };
 
-deleteLocalNews = (id) => {
+const deleteLocalNews = (id) => {
   return api.delete(`/news/delete/${id}`);
 };
 

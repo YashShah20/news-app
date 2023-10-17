@@ -1,6 +1,10 @@
 const logErrors = (error, req, res, next) => {
   if (error) {
-    console.log(error.message);
+    if (error.message) {
+      console.log(error.message);
+    } else {
+      console.dir(error);
+    }
     next(error);
   }
   next();

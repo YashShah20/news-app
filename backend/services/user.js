@@ -30,7 +30,21 @@ const addUser = async (first_name, last_name, username, email, password) => {
   }
 };
 
+const updatePasswordById = async (id, password) => {
+  try {
+    const result = await pool.query(
+      `UPDATE users SET password = $2 WHERE id = $1`,
+      [id, password]
+    );
+
+    const user = result.rows[0];
+    return user;
+  } catch (error) {
+    throw error;
+  }
+};
 module.exports = {
   getUserByEmail,
   addUser,
+  updatePasswordById,
 };
