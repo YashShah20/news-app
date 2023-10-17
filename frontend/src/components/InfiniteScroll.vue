@@ -1,4 +1,5 @@
 <template>
+  <div ref="top" style="top: 0; position: absolute"></div>
   <slot></slot>
   <div class="d-flex my-4">
     <v-progress-circular
@@ -8,12 +9,13 @@
       class="mx-auto"
     ></v-progress-circular>
   </div>
-  <!-- <v-btn
+  <v-btn
     icon="mdi-arrow-up"
     position="fixed"
     style="bottom: 0; right: 0"
+    @click="scrollToTop"
     class="mr-4 mb-4 bg-grey-darken-4"
-  ></v-btn> -->
+  ></v-btn>
 </template>
 
 <script>
@@ -36,6 +38,9 @@ export default {
         // console.log(window.innerHeight + window.scrollY);
         this.load();
       }
+    },
+    scrollToTop() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
   },
   mounted() {
