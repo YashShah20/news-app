@@ -5,17 +5,17 @@
       <span> {{ news_item.city }}, {{ news_item.country }} </span>
     </template>
   </news-item>
-  <add-news @add-news="addNews"></add-news>
+  <news-form @add-news="addNews"></news-form>
 </template>
 
 <script>
-import AddNews from "@/components/local-news/AddNews.vue";
+import NewsForm from "@/components/local-news/NewsForm.vue";
 import NewsItem from "@/components/news/NewsItem.vue";
 import fetch from "@/mixins/fetch";
 import { getLocalNews } from "@/services/localNewsApi";
 export default {
   components: {
-    AddNews,
+    NewsForm,
     NewsItem,
   },
   mixins: [fetch],

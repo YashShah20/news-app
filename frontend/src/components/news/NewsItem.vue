@@ -12,7 +12,7 @@
     <v-img
       cover
       height="250"
-      :src="news.image_url || news.thumbnail_url"
+      :src="news.image_url"
     ></v-img>
 
     <v-card-item>

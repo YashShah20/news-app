@@ -25,7 +25,7 @@ export default {
         } else {
           switch (typeof error) {
             case "string":
-              this.error = e;
+              this.error = error;
               this.$toast.error(this.error);
 
               break;
@@ -35,6 +35,9 @@ export default {
                   const message = `${errorObj.msg} for field ${errorObj.path}`;
                   this.$toast.error(message);
                 });
+              } else {
+                const message = JSON.stringify(error);
+                this.$toast.error(message);
               }
               break;
           }

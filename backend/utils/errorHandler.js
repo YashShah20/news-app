@@ -5,7 +5,11 @@ const errorHandler = (error, req, res, next) => {
     }
     const statusCode = res.statusCode >= 400 ? res.statusCode : 500;
     const message =
-      statusCode === 500 ? "internal server error" : error;
+      statusCode === 500
+        ? "internal server error"
+        : Array.isArray(error)
+        ? error
+        : error.message;
     return res.status(statusCode).send({ error: message });
   }
   next();

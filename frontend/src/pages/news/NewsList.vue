@@ -16,6 +16,7 @@
       </template>
     </news-item>
   </infinite-scroll>
+  <div class="text-center text-h6" v-if="endOfList">no more news...</div>
 </template>
 
 <script>
@@ -38,11 +39,21 @@ export default {
     return {
       news: [],
       page: 1,
+      endOfList: false,
     };
   },
   methods: {
     fetchNews() {
+      if (this.endOfList) {
+        return;
+      }
+
       const callback = (news) => {
+        if (news.length === 0) {
+          this.endOfList = true;
+          return;
+        }
+
         this.news.push(...news);
         this.page++;
       };

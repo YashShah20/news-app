@@ -1,5 +1,6 @@
 const { checkSchema } = require("express-validator");
 const UserService = require("../services/user");
+const { compare } = require("../utils/bcrypt");
 
 const userSchemaValidator = [
   checkSchema({
@@ -65,7 +66,41 @@ const signinSchemaValidator = checkSchema({
   },
 });
 
+const changePasswordSchemaValidator = checkSchema({
+  password: {
+    required: {
+      bail: true,
+    },
+    custom: {
+      options: async (value, { req }) => {
+        try {
+          const { email } = req.user;
+          const user = await UserService.getUserByEmail(email);
+
+          const isValidPassword = await compare(value, user.password);
+
+          if (!isValidPassword) {
+            return Promise.reject("invalid current password");
+          }
+
+          return Promise.resolve("valid current password");
+        } catch (error) {
+          return Promise.reject("invalid current password");
+        }
+      },
+    },
+  },
+  new_password: {
+    required: true,
+    isLength: {
+      options: {
+        min: 8,
+      },
+    },
+  },
+});
 module.exports = {
   userSchemaValidator,
   signinSchemaValidator,
+  changePasswordSchemaValidator,
 };

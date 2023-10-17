@@ -8,6 +8,12 @@
       class="mx-auto"
     ></v-progress-circular>
   </div>
+  <!-- <v-btn
+    icon="mdi-arrow-up"
+    position="fixed"
+    style="bottom: 0; right: 0"
+    class="mr-4 mb-4 bg-grey-darken-4"
+  ></v-btn> -->
 </template>
 
 <script>

@@ -1,7 +1,9 @@
 <template>
-  <v-toolbar color="grey-darken-4">
-    <v-app-bar-nav-icon icon="mdi-newspaper" :to="{ name: 'home' }">
-    </v-app-bar-nav-icon>
+  <v-toolbar color="grey-darken-4" floating>
+    <template #prepend>
+      <v-icon icon="mdi-newspaper-variant-outline"></v-icon>
+    </template>
+
     <v-toolbar-title class="text-uppercase">Argus News</v-toolbar-title>
 
     <v-spacer></v-spacer>
@@ -14,8 +16,10 @@
       <v-card min-width="300">
         <v-list>
           <v-list-item
+            append-icon="mdi-account-circle"
             :title="`${user.first_name} ${user.last_name}`"
             :subtitle="user.email"
+            :to="{ name: 'user-profile' }"
           >
           </v-list-item>
         </v-list>
@@ -23,35 +27,13 @@
         <v-divider></v-divider>
 
         <v-list>
-          <v-list-item>
-            <v-btn
-              class="cursor-pointer"
-              prepend-icon="mdi-compass"
-              variant="text"
-              :to="{ name: 'category-list' }"
-            >
-              All Categories
-            </v-btn>
+          <v-list-item
+            prepend-icon="mdi-compass"
+            :to="{ name: 'category-list' }"
+            title="All Categories"
+          >
           </v-list-item>
-          <!-- <v-list-item>
-            <v-btn
-              class="cursor-pointer"
-              prepend-icon="mdi-account"
-              variant="text"
-            >
-              Profile
-            </v-btn>
-          </v-list-item> -->
-
-          <v-list-item>
-            <v-btn
-              class="cursor-pointer"
-              prepend-icon="mdi-logout"
-              variant="text"
-              @click="logout"
-            >
-              Logout
-            </v-btn>
+          <v-list-item prepend-icon="mdi-logout" title="Logout" @click="logout">
           </v-list-item>
         </v-list>
       </v-card>

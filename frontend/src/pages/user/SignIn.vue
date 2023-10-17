@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="8" class="w-100 pa-5 ma-auto" max-width="576">
+  <v-card elevation="24" class="pa-5 ma-auto rounded-full" max-width="576">
     <v-card-title class="text-uppercase text-center font-weight-bold my-5 mb-8">
       Argus News
     </v-card-title>
@@ -30,7 +30,7 @@
           :class="{ 'mb-4': v$.credentials.password.$invalid }"
         >
         </v-text-field>
-        <v-btn color="grey-darken-4" type="submit" :disabled="isLoading"
+        <v-btn color="grey-darken-4" type="submit" :loading="isLoading"
           >Sign In</v-btn
         >
       </v-form>
@@ -77,7 +77,7 @@ export default {
   methods: {
     signin() {
       this.v$.credentials.$touch();
-      
+
       if (this.v$.credentials.$invalid) {
         return;
       }

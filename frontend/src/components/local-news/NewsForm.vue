@@ -37,7 +37,7 @@
           </v-chip>
         </v-card-title>
         <v-card-text>
-          <v-form @submit.prevent="addNews">
+          <v-form @submit.prevent="handleSubmit">
             <v-text-field
               label="Title"
               prepend-inner-icon="mdi-format-title"
@@ -101,7 +101,7 @@
 </template>
 <script>
 import fetch from "@/mixins/fetch";
-import { addLocalNews } from "@/services/localNewsApi";
+import { addLocalNews, updateLocalNews } from "@/services/localNewsApi";
 import { getTags } from "@/services/tagApi";
 import { useVuelidate } from "@vuelidate/core";
 import {
@@ -113,6 +113,13 @@ import {
 } from "@vuelidate/validators";
 // import { isImage } from "@/services/image";
 export default {
+  props: {
+    data: {
+      type: Object,
+      required: false,
+      default: null,
+    },
+  },
   setup() {
     return { v$: useVuelidate() };
   },
@@ -127,7 +134,7 @@ export default {
           "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Illum sit, soluta ipsa maiores, earum quisquam blanditiis perferendis voluptate rerum numquam consequuntur quo ad velit labore dignissimos temporibus delectus, voluptates sed odit dolor provident quia aperiam harum! Perferendis ullam autem non totam, consequatur ipsa ipsum unde doloribus velit, aliquam quisquam officia.",
         image_url:
           "https://static.inshorts.com/inshorts/images/v1/variants/jpg/m/2023/09_sep/17_sun/img_1694966953305_258.jpg?",
-        tags: ["2"],
+        tags: [],
       },
       tagOptions: [],
       errors: [],
@@ -164,18 +171,28 @@ export default {
     };
   },
   created() {
-    if (!this.tagOptions.length) {
-      this.fetchTagOptions();
+    this.fetchTagOptions();
+    if (this.isInEditMode) {
+      this.news = this.data;
     }
   },
 
   methods: {
-    addNews() {
+    handleSubmit() {
       this.v$.news.$touch();
+
       if (this.v$.news.$invalid) {
         return;
       }
 
+      if (this.isInEditMode) {
+        this.updateNews(this.data.id, this.news);
+      } else {
+        this.addNews(this.news);
+      }
+    },
+
+    addNews(news) {
       const callback = (news) => {
         this.close();
         this.$emit("add-news", news);
@@ -184,24 +201,29 @@ export default {
         this.$toast.success("News added");
       };
 
-      const params = [this.news];
+      const errorCallback = (errors) => {
+        this.errors = errors;
+      };
+
+      this._fetch(addLocalNews, [news], callback, errorCallback, true);
+    },
+    
+    updateNews(id, news) {
+      const callback = (news) => {
+        this.close();
+        this.$emit("update-news", id, news);
+        this.reset();
+        this.v$.news.$reset();
+        this.$toast.success("News updated");
+      };
 
       const errorCallback = (errors) => {
         this.errors = errors;
       };
-      this._fetch(addLocalNews, params, callback, errorCallback, true);
+
+      this._fetch(updateLocalNews, [id, news], callback, errorCallback, true);
     },
-    close() {
-      this.dialog = false;
-    },
-    reset() {
-      this.news = {
-        title: null,
-        content: null,
-        image_url: null,
-        tags: null,
-      };
-    },
+
     fetchTagOptions() {
       const callback = (options) => {
         this.tagOptions = options.map((option) => ({
@@ -212,10 +234,26 @@ export default {
 
       this._fetch(getTags, [], callback);
     },
+
+    close() {
+      this.dialog = false;
+    },
+
+    reset() {
+      this.news = {
+        title: null,
+        content: null,
+        image_url: null,
+        tags: null,
+      };
+    },
   },
   computed: {
     location() {
       return this.$store.getters["location/location"];
+    },
+    isInEditMode() {
+      return this.data !== null;
     },
   },
 };

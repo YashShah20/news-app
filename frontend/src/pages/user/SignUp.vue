@@ -78,7 +78,7 @@
             </v-text-field>
           </v-col>
         </v-row>
-        <v-btn color="grey-darken-4" type="submit" :disabled="isLoading"
+        <v-btn color="grey-darken-4" type="submit" :loading="isLoading"
           >Sign Up</v-btn
         >
       </v-form>

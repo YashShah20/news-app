@@ -1,6 +1,9 @@
+import store from "@/stores/index";
+
 import SignIn from "@/pages/user/SignIn.vue";
 import SignUp from "@/pages/user/SignUp.vue";
-import store from "@/stores/index";
+import UserProfile from "@/pages/user/UserProfile.vue";
+
 import CategoryList from "@/pages/category/CategoryList.vue";
 
 import NewsList from "@/pages/news/NewsList.vue";
@@ -48,6 +51,11 @@ export default [
     path: "/categories",
     component: CategoryList,
     name: "category-list",
+  },
+  {
+    path: "/profile",
+    component: UserProfile,
+    name: "user-profile",
   },
   {
     path: "/sign-in",

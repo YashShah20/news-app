@@ -6,4 +6,7 @@ const signin = (credentials) => {
 const signup = (user) => {
   return api.post("/users/signup", user);
 };
-export { signin, signup };
+const changePassword = (credentials) => {
+  return api.put("/users/change-password", credentials);
+};
+export { signin, signup, changePassword };

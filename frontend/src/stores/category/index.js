@@ -9,6 +9,11 @@ export default {
         label: "Local news",
         to: { name: "local-news" },
       },
+      allNewsCategory: {
+        tag: "",
+        label: "All news",
+        to: { name: "news-list" },
+      },
       categories: [],
     };
   },
@@ -36,7 +41,10 @@ export default {
       try {
         const response = await getCategories();
         const categories = response.data;
-        context.dispatch("setCategories", categories);
+        context.dispatch("setCategories", [
+          context.state.allNewsCategory,
+          ...categories,
+        ]);
 
         const isLoggedIn = context.rootGetters.isLoggedIn;
 
