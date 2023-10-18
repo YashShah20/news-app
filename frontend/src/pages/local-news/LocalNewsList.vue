@@ -1,4 +1,12 @@
 <template>
+  <div class="d-flex my-4">
+    <v-progress-circular
+      indeterminate
+      centered
+      v-if="isLoading"
+      class="mx-auto"
+    ></v-progress-circular>
+  </div>
   <news-item v-for="news_item in news" :key="news_item.id" :news="news_item">
     <template #location>
       <v-icon icon="mdi-map-marker" start> </v-icon>

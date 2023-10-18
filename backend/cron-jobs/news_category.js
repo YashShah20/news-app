@@ -2,6 +2,9 @@ const { CronJob } = require("cron");
 const CategoryService = require("../services/category");
 const InshortsAPIService = require("../services/inshorts");
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 const fetchTrendingNewsCategories = async () => {
   try {
     const [stored_categories, latest_categories] = await Promise.all([
