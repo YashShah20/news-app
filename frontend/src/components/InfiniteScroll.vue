@@ -11,10 +11,12 @@
   </div>
   <v-btn
     icon="mdi-arrow-up"
-    position="fixed"
-    style="bottom: 0; right: 0"
     @click="scrollToTop"
-    class="mr-4 mb-4 bg-grey-darken-4"
+    position="fixed"
+    color="grey-darken-4"
+    class="mr-2 mb-4 mr-md-8 mb-md-8"
+    elevation="24"
+    style="bottom: 0; right: 0"
   ></v-btn>
 </template>
 
