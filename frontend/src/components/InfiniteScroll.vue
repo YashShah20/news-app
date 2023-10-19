@@ -32,24 +32,43 @@ export default {
       default: false,
     },
   },
+  data() {
+    return {
+      debounceScroll: null,
+    };
+  },
+  created() {
+    this.debounceScroll = this.debounce(this.onscroll, 500);
+  },
   methods: {
     onscroll() {
       const isBottomOfPage =
         window.innerHeight + window.scrollY >= document.body.offsetHeight;
-      if (isBottomOfPage && !this.loading) {
+      if (isBottomOfPage && !this.isLoading) {
         // console.log(window.innerHeight + window.scrollY);
         this.load();
       }
+    },
+    debounce(func, delay) {
+      let timeoutId;
+      return function () {
+        const context = this;
+        const args = arguments;
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+          func.apply(context, args);
+        }, delay);
+      };
     },
     scrollToTop() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
   },
   mounted() {
-    window.addEventListener("scroll", this.onscroll);
+    window.addEventListener("scroll", this.debounceScroll);
   },
   unmounted() {
-    window.removeEventListener("scroll", this.onscroll);
+    window.removeEventListener("scroll", this.debounceScroll);
   },
 };
 </script>

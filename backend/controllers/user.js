@@ -1,4 +1,5 @@
 const UserService = require("../services/user");
+const LocationService = require("../services/location");
 const { compare, hash } = require("../utils/bcrypt");
 const { sign } = require("../utils/jwt");
 
@@ -20,7 +21,10 @@ const signin = async (req, res, next) => {
 
     delete user.password;
 
-    const token = sign(user);
+    const ip = req.ip;
+    const { city, country } = await LocationService.getLocationFromIP();
+
+    const token = sign({ ...user, city, country });
 
     res.json({ ...user, token });
   } catch (error) {

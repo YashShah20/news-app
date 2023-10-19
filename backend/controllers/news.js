@@ -5,26 +5,31 @@ const dayjs = require("dayjs");
 
 const getNewsByCity = async (req, res, next) => {
   try {
-    const ip = req.ip;
-    const { city } = await LocationService.getLocationFromIP();
+    // const ip = req.ip;
+    // const { city } = await LocationService.getLocationFromIP();
+    const { city } = req.user;
+    const { page } = req.query;
 
-    const news = await NewsService.getNewsByCity(city);
+    const news = await NewsService.getNewsByCity(city, page);
 
-    const news_with_tags = await Promise.all(
-      news.map(async (news_item) => {
+    const news_with_tags = news.reduce((acc, news_item) => {
+      const index = acc.findIndex((item) => item.id === news_item.id);
+      if (index === -1) {
         const author_name = `${news_item.author_first_name} ${news_item.author_last_name}`;
         const created_on = dayjs(+news_item.created_on).format(
           "dddd - DD MMMM, YYYY"
         );
-
-        const news_tags = await NewsTagService.getNewsTagsByNewsId(
-          news_item.id
-        );
-
-        const tags = news_tags.map((tag) => tag.name);
-        return { ...news_item, created_on, author_name, tags };
-      })
-    );
+        acc.push({
+          ...news_item,
+          author_name,
+          created_on,
+          tags: [news_item.tag_name],
+        });
+      } else {
+        acc[index].tags.push(news_item.tag_name);
+      }
+      return acc;
+    }, []);
     res.send(news_with_tags);
   } catch (error) {
     next(error);

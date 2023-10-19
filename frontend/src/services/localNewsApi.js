@@ -1,7 +1,7 @@
 import api from "./api";
 
-const getLocalNews = () => {
-  return api.get("/news");
+const getLocalNews = (page) => {
+  return api.get("/news", { params: { page } });
 };
 
 const getNewsDetails = (id) => {

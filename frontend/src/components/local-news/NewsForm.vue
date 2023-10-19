@@ -7,9 +7,9 @@
           v-bind="props"
           icon="mdi-plus"
           position="fixed"
-          class="mr-2 mb-4 mr-md-8 mb-md-8"
+          class="mr-2 mr-md-8"
           elevation="24"
-          style="bottom: 0; right: 0"
+          style="bottom: 0; right: 0; margin-bottom: 85px"
         >
         </v-btn>
       </template>
@@ -207,7 +207,7 @@ export default {
 
       this._fetch(addLocalNews, [news], callback, errorCallback, true);
     },
-    
+
     updateNews(id, news) {
       const callback = (news) => {
         this.close();
