@@ -30,9 +30,9 @@
           :class="{ 'mb-4': v$.credentials.password.$invalid }"
         >
         </v-text-field>
-        <v-btn color="grey-darken-4" type="submit" :loading="isLoading"
-          >Sign In</v-btn
-        >
+        <v-btn color="grey-darken-4" type="submit" :loading="isLoading">
+          Sign In
+        </v-btn>
       </v-form>
       <!-- <div class="text-center text-red" v-if="error">{{ error }}</div> -->
       <div class="mt-2 text-start">

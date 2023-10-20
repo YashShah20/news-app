@@ -88,7 +88,9 @@
             >
             </v-autocomplete>
             <div class="d-flex flex-row-reverse">
-              <v-btn type="submit" color="black">Add</v-btn>
+              <v-btn type="submit" color="black" :loading="isLoading">
+                Add
+              </v-btn>
               <v-btn type="button" color="white" class="me-4" @click="close">
                 Close
               </v-btn>

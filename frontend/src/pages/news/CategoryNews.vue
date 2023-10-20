@@ -66,6 +66,7 @@ export default {
     clear() {
       this.news = [];
       this.page = 1;
+      this.endOfList = false;
     },
   },
   watch: {
