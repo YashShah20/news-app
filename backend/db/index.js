@@ -4,8 +4,8 @@ const DB_URI = process.env.DEV_DATABASE_URL;
 
 const pool = new Pool({
   connectionString: DB_URI,
-  ssl: true,
-  keepAlive: true,
+  // ssl: true,
+  // keepAlive: true,
 });
 
 const query = async (text, params) => {
