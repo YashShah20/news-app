@@ -56,6 +56,12 @@ export default [
     path: "/profile",
     component: UserProfile,
     name: "user-profile",
+    beforeEnter: () => {
+      const loggedIn = store.getters.isLoggedIn;
+      if (!loggedIn) {
+        return { name: "category-list" };
+      }
+    },
   },
   {
     path: "/sign-in",
