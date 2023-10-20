@@ -7,6 +7,7 @@
           :key="category.tag"
           :value="category.tag"
           :to="category.to"
+          :loading="isLoading"
           exact
         >
           <v-img :src="category.image_url" size="12"></v-img>
@@ -31,11 +32,21 @@ export default {
     categories() {
       return this.$store.getters["category/categories"];
     },
+    isLoading() {
+      return this.$store.getters["category/isLoading"];
+    },
     categoriesWithRoutes() {
       return this.categories.map((category) => ({
         to: { name: "category-news", params: { category: category.tag } },
         ...category,
       }));
+    },
+  },
+  watch: {
+    $route(value) {
+      if (!value.fullPath.includes("/news")) {
+        this.tab = null;
+      }
     },
   },
 };

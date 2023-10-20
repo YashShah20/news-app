@@ -15,6 +15,7 @@ export default {
         to: { name: "news-list" },
       },
       categories: [],
+      isLoading: false,
     };
   },
   mutations: {
@@ -39,6 +40,7 @@ export default {
     },
     async init(context) {
       try {
+        context.state.isLoading = true;
         const response = await getCategories();
         const categories = response.data;
         context.dispatch("setCategories", [
@@ -53,12 +55,17 @@ export default {
         }
       } catch (error) {
         console.log(error.message);
+      } finally {
+        context.state.isLoading = false;
       }
     },
   },
   getters: {
     categories(state) {
       return state.categories;
+    },
+    isLoading(state) {
+      return state.isLoading;
     },
   },
 };

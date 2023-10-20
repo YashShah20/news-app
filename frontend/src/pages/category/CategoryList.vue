@@ -3,6 +3,14 @@
     <div class="text-h5 font-weight-bold mb-4 text-center">
       Explore Categories
     </div>
+    <div class="d-flex my-4">
+      <v-progress-circular
+        indeterminate
+        centered
+        class="mx-auto"
+        v-if="isLoading"
+      ></v-progress-circular>
+    </div>
     <v-row>
       <v-col
         v-for="category in categories"
@@ -42,6 +50,9 @@ export default {
   computed: {
     categories() {
       return this.$store.getters["category/categories"];
+    },
+    isLoading() {
+      return this.$store.getters["category/isLoading"];
     },
   },
 };
