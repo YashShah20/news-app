@@ -7,6 +7,9 @@ services:
     image: yshah20/news-app-frontend
     ports:
       - 8080:8080
+    depends_on:
+      backend:
+        condition: service_started
   backend:
     build: ./backend
     image: yshah20/news-app-backend
@@ -16,6 +19,9 @@ services:
       - ./backend/.env
     volumes:
       - ./backend:/usr/home/news-app
+    depends_on:
+      db:
+        condition: service_started
   db:
     image: postgres
     ports:
