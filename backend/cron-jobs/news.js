@@ -89,7 +89,7 @@ const fetchNews = async () => {
       .filter((news_item) => news_item.news_obj)
       .map((news_item) => news_item.news_obj);
 
-    GlobalNewsService.addNewsByCategory(nextCategory.tag, news_data);
+    await GlobalNewsService.addNewsByCategory(nextCategory.tag, news_data);
     console.log(news_data.length);
   } catch (error) {
     console.log(error.message);

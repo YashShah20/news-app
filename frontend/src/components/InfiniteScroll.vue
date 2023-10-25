@@ -38,7 +38,7 @@ export default {
     };
   },
   created() {
-    this.debounceScroll = this.debounce(this.onscroll, 500);
+    this.debounceScroll = this.debounce(this.onscroll, 100);
   },
   methods: {
     onscroll() {
