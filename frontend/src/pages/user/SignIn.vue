@@ -46,8 +46,8 @@
 <script>
 import { useVuelidate } from "@vuelidate/core";
 import { required, email } from "@vuelidate/validators";
-import { signin } from "../../services/userApi";
-import fetch from "../../mixins/fetch";
+import { signin } from "@/services/userApi";
+import fetch from "@/mixins/fetch";
 export default {
   mixins: [fetch],
   setup() {

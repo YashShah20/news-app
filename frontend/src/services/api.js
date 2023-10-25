@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import store from "../stores/index";
+import store from "@/stores/index";
 
 const api = axios.create({
   baseURL: "http://localhost:3000/",

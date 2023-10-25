@@ -102,8 +102,8 @@ import {
   maxLength,
 } from "@vuelidate/validators";
 
-import { signup } from "../../services/userApi";
-import fetch from "../../mixins/fetch";
+import { signup } from "@/services/userApi";
+import fetch from "@/mixins/fetch";
 export default {
   mixins: [fetch],
   setup() {
