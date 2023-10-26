@@ -5,7 +5,7 @@ const { compare } = require("../utils/bcrypt");
 const userSchemaValidator = [
   checkSchema({
     first_name: {
-      required: true,
+      notEmpty: true,
       isLength: {
         options: {
           min: 2,
@@ -30,7 +30,7 @@ const userSchemaValidator = [
       },
     },
     email: {
-      required: true,
+      notEmpty: true,
       isEmail: true,
       normalizeEmail: true,
       custom: {
@@ -45,7 +45,7 @@ const userSchemaValidator = [
       },
     },
     password: {
-      required: true,
+      notEmpty: true,
       isLength: {
         options: {
           min: 8,
@@ -57,18 +57,18 @@ const userSchemaValidator = [
 
 const signinSchemaValidator = checkSchema({
   email: {
-    required: true,
+    notEmpty: true,
     isEmail: true,
     normalizeEmail: true,
   },
   password: {
-    required: true,
+    notEmpty: true,
   },
 });
 
 const changePasswordSchemaValidator = checkSchema({
   password: {
-    required: {
+    notEmpty: {
       bail: true,
     },
     custom: {
@@ -91,7 +91,7 @@ const changePasswordSchemaValidator = checkSchema({
     },
   },
   new_password: {
-    required: true,
+    notEmpty: true,
     isLength: {
       options: {
         min: 8,

@@ -3,7 +3,7 @@ const { isImage } = require("../utils/image");
 
 const newsSchemaValidator = checkSchema({
   title: {
-    required: true,
+    notEmpty: true,
     isLength: {
       options: {
         min: 10,
@@ -11,7 +11,7 @@ const newsSchemaValidator = checkSchema({
     },
   },
   content: {
-    required: true,
+    notEmpty: true,
     isLength: {
       options: {
         min: 10,
@@ -20,7 +20,7 @@ const newsSchemaValidator = checkSchema({
     },
   },
   image_url: {
-    required: true,
+    notEmpty: true,
     isURL: {
       bail: true,
     },
@@ -29,7 +29,7 @@ const newsSchemaValidator = checkSchema({
     },
   },
   tags: {
-    required: true,
+    notEmpty: true,
   },
 });
 
