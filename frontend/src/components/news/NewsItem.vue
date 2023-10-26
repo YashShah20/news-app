@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto mb-8" elevation="16" max-width="639">
+  <v-card class="mx-auto mb-8" elevation="16" max-width="600">
     <template v-slot:loader="{ isActive }">
       <v-progress-linear
         :active="isActive"
@@ -48,8 +48,8 @@
       </template>
     </v-card-text>
 
-    <v-divider class="mx-4 mb-1" v-if="$slots.source"></v-divider>
-    <slot name="source"> </slot>
+    <v-divider class="mx-4 mb-1" v-if="$slots.actions"></v-divider>
+    <slot name="actions"> </slot>
   </v-card>
 </template>
 
