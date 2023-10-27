@@ -9,17 +9,28 @@
       ></v-progress-linear>
     </template>
 
-    <v-img
-      cover
-      height="250"
-      :src="news.image_url"
-    ></v-img>
+    <v-img cover height="250" :src="news.image_url"></v-img>
 
     <v-card-item>
-      <v-card-title>{{ news.title }}</v-card-title>
+      <v-card-title>
+        <v-hover>
+          <template v-slot:default="{ isHovering }">
+            <router-link
+              class="text-grey-darken-4"
+              :class="{ 'text-decoration-none': isHovering }"
+              :to="to"
+            >
+              {{ news.title }}
+            </router-link>
+          </template>
+        </v-hover>
+      </v-card-title>
       <v-card-subtitle>
         By, <span class="me-1">{{ news.author_name }}</span>
       </v-card-subtitle>
+      <template #append v-if="allowUpvote">
+        <v-btn icon="mdi-thumb-up-outline" variant="text"> </v-btn>
+      </template>
     </v-card-item>
     <v-card-text>
       <div>
@@ -55,6 +66,31 @@
 
 <script>
 export default {
-  props: ["news"],
+  props: {
+    news: {
+      type: Object,
+      require: true,
+    },
+    allowUpvote: {
+      type: Boolean,
+      require: false,
+      default: false,
+    },
+    link: {
+      type: Boolean,
+      require: false,
+      default: false,
+    },
+  },
+  computed: {
+    to() {
+      return this.link
+        ? {
+            name: "local-news-details",
+            params: { news_id: this.news.id },
+          }
+        : {};
+    },
+  },
 };
 </script>

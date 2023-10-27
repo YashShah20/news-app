@@ -1,6 +1,6 @@
 <template>
   <v-textarea
-    class="ma-3 ml-8"
+    class="my-3"
     variant="solo"
     bg-color="grey-lighten-2"
     base-color="grey-darken-3"
@@ -8,9 +8,10 @@
     append-inner-icon="mdi-send"
     auto-grow
     counter="500"
-    rows="2"
+    rows="3"
     label="Add Comment"
     :messages="replying_to"
+    @keyup.enter="addComment"
     @click:appendInner="addComment"
     v-model="comment.text"
     :error-messages="v$.comment.text.$errors.map((e) => e.$message)"
@@ -18,7 +19,15 @@
     :class="{ 'mb-4': v$.comment.text.$invalid }"
   >
     <template v-slot:message="{ message }">
-      replying to <span class="font-weight-bold">{{ message }} </span>
+      <span v-if="v$.comment.text.$error">
+        {{ message }}
+      </span>
+      <span v-else-if="replying_to">
+        replying to <span class="font-weight-bold">{{ message }} </span>
+      </span>
+      <span v-else>
+        {{ message }}
+      </span>
     </template>
   </v-textarea>
 </template>

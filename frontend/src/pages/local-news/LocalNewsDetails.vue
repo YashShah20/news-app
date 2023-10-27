@@ -7,9 +7,21 @@
     ></v-progress-circular>
   </div>
   <template v-else>
-    <news-item :news="news"></news-item>
-    <the-reply :news_id="news_id" @add-comment="addComment"></the-reply>
+    <news-item :news="news" allow-upvote></news-item>
     <v-container>
+      <the-reply :news_id="news_id" @add-comment="addComment"></the-reply>
+      <v-chip
+        variant="text"
+        append-icon="mdi-chat"
+        size="large"
+        color="grey-darken-4"
+      >
+        <span class="text-h5">Comments</span>
+      </v-chip>
+      <div class="ml-4 mt-2 text-grey-darken-2">
+        <span v-if="comments.length === 0"> Be the first to comment... </span>
+        <span v-else> {{ comments.length }} comments </span>
+      </div>
       <comment-box
         v-for="comment in comments"
         :key="comment.id"

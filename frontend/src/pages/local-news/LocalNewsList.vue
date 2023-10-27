@@ -1,22 +1,15 @@
 <template>
   <infinite-scroll :load="fetchNews" :isLoading="isLoading">
-    <news-item v-for="news_item in news" :key="news_item.id" :news="news_item">
+    <news-item
+      v-for="news_item in news"
+      :key="news_item.id"
+      :news="news_item"
+      allow-upvote
+      link
+    >
       <template #location>
         <v-icon icon="mdi-map-marker" start> </v-icon>
         <span> {{ news_item.city }}, {{ news_item.country }} </span>
-      </template>
-      <template #actions>
-        <v-card-actions>
-          <v-btn
-            background-color="grey darken-1"
-            :to="{
-              name: 'local-news-details',
-              params: { news_id: news_item.id },
-            }"
-            >View more</v-btn
-          >
-          <v-btn icon="mdi-heart" color="black"></v-btn>
-        </v-card-actions>
       </template>
     </news-item>
   </infinite-scroll>

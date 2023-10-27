@@ -4,7 +4,7 @@
     rows="1"
     bg-color="white"
     base-color="grey-darken-3"
-    class="ma-3 outline-none"
+    class="my-3"
     :model-value="comment.text"
     :messages="commentTime"
     readonly
@@ -41,6 +41,7 @@
   </v-textarea>
 
   <the-reply
+    class="ml-8"
     v-if="replyBoxVisibility"
     :news_id="$route.params.news_id"
     :parent_id="comment.id"
@@ -95,6 +96,9 @@ export default {
       }
     },
     addReply(reply) {
+      if (this.replies.length === 0) {
+        this.fetchReplies();
+      }
       this.replies.unshift(reply);
       this.toggleReplyBox();
     },

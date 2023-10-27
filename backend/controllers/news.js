@@ -39,11 +39,29 @@ const getNewsByCity = async (req, res, next) => {
 const getNewsDetails = async (req, res, next) => {
   try {
     const { news_id } = req.params;
+    const { city } = req.user;
 
-    const news_details = await NewsService.getNewsById(news_id);
+    const news_details = await NewsService.getNewsById(news_id, city);
 
-    const news_tags = await NewsTagService.getNewsTagsByNewsId(news_id);
-    res.send({ ...news_details, news_tags });
+    const news_with_tags = news_details.reduce((acc, news_item) => {
+      const index = acc.findIndex((item) => item.id === news_item.id);
+      if (index === -1) {
+        const author_name = `${news_item.author_first_name} ${news_item.author_last_name}`;
+        const created_on = dayjs(+news_item.created_on).format(
+          "dddd - DD MMMM, YYYY"
+        );
+        acc.push({
+          ...news_item,
+          author_name,
+          created_on,
+          tags: [news_item.tag_name],
+        });
+      } else {
+        acc[index].tags.push(news_item.tag_name);
+      }
+      return acc;
+    }, []);
+    res.send(news_with_tags[0]);
   } catch (error) {
     next(error);
   }
