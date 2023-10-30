@@ -4,7 +4,6 @@
       v-for="news_item in news"
       :key="news_item.id"
       :news="news_item"
-      allow-upvote
       link
     >
       <template #location>
