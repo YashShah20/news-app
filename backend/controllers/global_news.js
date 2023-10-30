@@ -10,7 +10,7 @@ const getNews = async (req, res, next) => {
       ...news_item,
       title: base64ToASCII(news_item.title),
       content: base64ToASCII(news_item.content),
-      created_on: dayjs(+news_item.created_on).format("dddd - DD MMMM, YYYY"),
+      created_on: +news_item.created_on,
     }));
     res.send(news_with_decoded_title);
   } catch (error) {
@@ -29,7 +29,7 @@ const getNewsByCategory = async (req, res, next) => {
       ...news_item,
       title: base64ToASCII(news_item.title),
       content: base64ToASCII(news_item.content),
-      created_on: dayjs(+news_item.created_on).format("dddd - DD MMMM, YYYY"),
+      created_on: +news_item.created_on,
     }));
     res.send(news_with_decoded_title);
   } catch (error) {
