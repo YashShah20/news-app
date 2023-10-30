@@ -12,6 +12,8 @@ const newsTagRouter = require("./routes/news_tag");
 const tagRouter = require("./routes/tag");
 const categoryRouter = require("./routes/category");
 const globalNewsRouter = require("./routes/global_news");
+const commentsRouter = require("./routes/comments");
+const upvoteRouter = require("./routes/upvote");
 
 const app = express();
 
@@ -22,9 +24,11 @@ app.use(bodyParser.json({}));
 app.use("/users", userRouter);
 app.use("/news", newsRouter);
 app.use("/news", newsTagRouter);
+app.use("/news", commentsRouter);
 app.use("/tag", tagRouter);
 app.use("/category", categoryRouter);
 app.use("/global-news", globalNewsRouter);
+app.use("/news/upvote", upvoteRouter);
 
 // error handlers
 app.use(logErrors);

@@ -1,6 +1,11 @@
 <template>
   <infinite-scroll :load="fetchNews" :isLoading="isLoading">
-    <news-item v-for="news_item in news" :key="news_item.id" :news="news_item">
+    <news-item
+      v-for="news_item in news"
+      :key="news_item.id"
+      :news="news_item"
+      link
+    >
       <template #location>
         <v-icon icon="mdi-map-marker" start> </v-icon>
         <span> {{ news_item.city }}, {{ news_item.country }} </span>
@@ -39,7 +44,7 @@ export default {
       if (this.endOfList) {
         return;
       }
-      
+
       const callback = (news) => {
         if (news.length === 0) {
           this.endOfList = true;

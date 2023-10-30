@@ -38,14 +38,33 @@ module.exports = {
     }
   },
 
-  async getNewsById(id) {
+  async getNewsById(id, city) {
     try {
       const result = await query(
-        `SELECT id, title, content, image_url, city, country, created_by, created_on
-	        FROM public.local_news WHERE id = $1`,
-        [id]
+        `SELECT
+          local_news.id,
+          title,
+          content,
+          image_url,
+          city,
+          country,
+          first_name as author_first_name,
+          last_name as author_last_name,
+          created_on,
+          tags.name as tag_name
+        FROM
+          public.local_news
+          JOIN news_tags ON local_news.id = news_tags.news_id
+          JOIN tags ON news_tags.tag_id = tags.id
+          JOIN users ON users.id = local_news.created_by
+        WHERE
+        local_news.id = $1
+        AND
+          city = $2
+        `,
+        [id, city]
       );
-      return result.rows[0];
+      return result.rows;
     } catch (error) {
       throw error;
     }

@@ -10,6 +10,7 @@ import NewsList from "@/pages/news/NewsList.vue";
 import CategoryNews from "@/pages/news/CategoryNews.vue";
 
 import LocalNews from "@/pages/local-news/LocalNewsList.vue";
+import LocalNewsDetails from "@/pages/local-news/LocalNewsDetails.vue";
 
 import Dummy from "@/pages/Dummy.vue";
 import PageNotFound from "@/pages/PageNotFound.vue";
@@ -30,14 +31,25 @@ export default [
       },
       {
         path: "local",
-        component: LocalNews,
-        name: "local-news",
         beforeEnter: () => {
           const loggedIn = store.getters.isLoggedIn;
           if (!loggedIn) {
             return { name: "category-list" };
           }
         },
+        children: [
+          {
+            path: "",
+            component: LocalNews,
+            name: "local-news",
+          },
+          {
+            path: ":news_id",
+            component: LocalNewsDetails,
+            props: true,
+            name: "local-news-details",
+          },
+        ],
       },
       {
         path: ":category",

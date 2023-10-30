@@ -5,6 +5,7 @@ services:
     volumes:
       - ./frontend:/usr/home/news-app-frontend
     image: yshah20/news-app-frontend
+    restart: always
     ports:
       - 8080:8080
     depends_on:
@@ -17,6 +18,7 @@ services:
       - 3000:3000
     env_file:
       - ./backend/.env
+    restart: always
     volumes:
       - ./backend:/usr/home/news-app
     depends_on:
@@ -24,12 +26,12 @@ services:
         condition: service_started
   db:
     image: postgres
-    ports:
-      - 4444:5432
     volumes:
       - ./data_dump.sql:/docker-entrypoint-initdb.d/dump.sql
-      - ~/.postgres:/var/lib/postrgesql/data
+      - pg-data:/var/lib/postrgesql/data
     environment:
       POSTGRES_USER: yash
       POSTGRES_PASSWORD: root
       POSTGRES_DB: news
+volumes:
+  pg-data:
