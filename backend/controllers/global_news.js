@@ -1,6 +1,6 @@
 const GlobalNewsService = require("../services/global_news");
 const base64ToASCII = (text) => Buffer.from(text, "base64").toString("ascii");
-const dayjs = require("dayjs");
+
 const getNews = async (req, res, next) => {
   try {
     const { page } = req.query;

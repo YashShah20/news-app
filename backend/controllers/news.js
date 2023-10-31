@@ -1,7 +1,6 @@
 const NewsService = require("../services/news");
 const NewsTagService = require("../services/news_tag");
 const LocationService = require("../services/location");
-const dayjs = require("dayjs");
 
 const getNewsByCity = async (req, res, next) => {
   try {
