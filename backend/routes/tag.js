@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", getTags);
 router.post("/add", addTag);
-router.put("/update/:id", updateTag);
-router.delete("/delete/:id", deleteTag);
+router.put("/update/:id(\\d+)", updateTag);
+router.delete("/delete/:id(\\d+)", deleteTag);
 
 module.exports = router;

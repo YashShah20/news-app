@@ -10,15 +10,15 @@ const validate = require("../utils/validationResult");
 
 const router = express.Router();
 
-router.get("/:news_id/", userAuth, getUpvote);
+router.get("/:news_id(\\d+)", userAuth, getUpvote);
 
 router.post(
-  "/:news_id",
+  "/:news_id(\\d+)",
   userAuth,
   upvoteSchemaValidation,
   validate,
   upvoteNews
 );
 
-router.delete("/:news_id/delete", userAuth, deleteUpvote);
+router.delete("/:news_id(\\d+)/delete", userAuth, deleteUpvote);
 module.exports = router;
