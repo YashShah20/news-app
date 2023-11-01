@@ -16,6 +16,7 @@ services:
     image: yshah20/news-app-backend
     ports:
       - 3000:3000
+      - 9229:9229 # debugging
     env_file:
       - ./backend/.env
     restart: always
