@@ -108,7 +108,9 @@ export default {
   },
   created() {
     if (this.allowUpvote) {
-      this.getUpvote();
+      setTimeout(() => {
+        this.getUpvote();
+      }, 100);
     }
   },
   methods: {
