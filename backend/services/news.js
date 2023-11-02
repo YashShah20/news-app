@@ -6,30 +6,44 @@ module.exports = {
       const limit = 10;
       const offset = (page - 1) * limit;
       const result = await query(
-        `SELECT
-          local_news.id,
-          title,
-          content,
-          image_url,
-          city,
-          country,
-          first_name as author_first_name,
-          last_name as author_last_name,
-          created_on,
-          tags.name as tag_name
-        FROM
-          public.local_news
-          JOIN news_tags ON local_news.id = news_tags.news_id
-          JOIN tags ON news_tags.tag_id = tags.id
-          JOIN users ON users.id = local_news.created_by
-        WHERE
-          city = $1
-        ORDER BY
-          created_on DESC
-        LIMIT
-          $2 
-        OFFSET 
-          $3`,
+        `select
+          news_with_tags.*,tags.name as tag_name
+          from
+              (
+                  select
+                      news_with_author.*,
+                      news_tags.tag_id
+                  from
+                      (
+                          select
+                              news_with_upvotes.*,
+                              users.first_name as author_first_name,
+                              users.last_name as author_last_name
+                          from
+                              (
+                                  select
+                                      local_news.*,
+                                      count(upvotes.user_id) as upvote_count
+                                  from
+                                      local_news
+                                      left join upvotes on local_news.id = upvotes.news_id
+                                  group by
+                                      local_news.id
+                              ) as news_with_upvotes
+                              JOIN users on news_with_upvotes.created_by = users.id
+                      ) as news_with_author
+                      left join news_tags on news_with_author.id = news_tags.news_id
+              ) news_with_tags
+              left join tags on news_with_tags.tag_id = tags.id
+          where
+              city = $1
+          order by
+              news_with_tags.upvote_count desc,
+              news_with_tags.created_on desc
+          LIMIT
+            $2 
+          OFFSET 
+            $3`,
         [city, limit, offset]
       );
       return result.rows;
