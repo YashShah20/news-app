@@ -140,4 +140,15 @@ module.exports = {
       throw error;
     }
   },
+
+  async getNewsCountByCityAndCategory() {
+    try {
+      const result = await query(
+        `select count(*) as count,city,tags.name as category from tags left join news_tags on tags.id = news_tags.tag_id left join local_news on local_news.id = news_tags.news_id group by category,city`
+      );
+      return result.rows;
+    } catch (error) {
+      throw error;
+    }
+  },
 };

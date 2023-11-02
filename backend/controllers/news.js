@@ -15,7 +15,7 @@ const getNewsByCity = async (req, res, next) => {
       const index = acc.findIndex((item) => item.id === news_item.id);
       if (index === -1) {
         const author_name = `${news_item.author_first_name} ${news_item.author_last_name}`;
-     
+
         acc.push({
           ...news_item,
           author_name,
@@ -43,7 +43,7 @@ const getNewsDetails = async (req, res, next) => {
       const index = acc.findIndex((item) => item.id === news_item.id);
       if (index === -1) {
         const author_name = `${news_item.author_first_name} ${news_item.author_last_name}`;
-       
+
         acc.push({
           ...news_item,
           author_name,
@@ -82,7 +82,6 @@ const addNews = async (req, res, next) => {
       NewsTagService.addNewsTags(news.id, tags);
     }
 
-  
     res.send(news);
   } catch (error) {
     next(error);
@@ -136,10 +135,45 @@ const deleteNews = async (req, res, next) => {
   }
 };
 
+const getNewsInsights = async (req, res, next) => {
+  try {
+    const news_by_city_and_category =
+      await NewsService.getNewsCountByCityAndCategory();
+
+    const news_by_category = news_by_city_and_category.reduce((acc, news) => {
+      let category_index = acc.findIndex((item) => item.name === news.category);
+
+      if (category_index === -1) {
+        const category_object = {
+          name: news.category,
+          data: [],
+        };
+
+        acc.push(category_object);
+        category_index = acc.length - 1;
+      }
+
+      if (!!news.city) {
+        acc[category_index].data.push({
+          x: news.city,
+          y: news.count,
+        });
+      }
+
+      return acc;
+    }, []);
+
+    res.send(news_by_category);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getNewsByCity,
   getNewsDetails,
   addNews,
   updateNews,
   deleteNews,
+  getNewsInsights,
 };
