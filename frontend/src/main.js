@@ -30,6 +30,7 @@ const vuetify = createVuetify({
   },
 });
 
+import VueApexCharts from "vue3-apexcharts";
 import ToastPlugin from "vue-toast-notification";
 import "vue-toast-notification/dist/theme-bootstrap.css";
 
@@ -42,6 +43,8 @@ app.use(ToastPlugin, {
   // One of the options
   position: "bottom-right",
 });
+
+app.use(VueApexCharts);
 
 app.mount("#app");
 store.dispatch("init");
