@@ -33,6 +33,18 @@
             title="All Categories"
           >
           </v-list-item>
+          <v-list-item
+            prepend-icon="mdi-chart-bubble"
+            :to="{ name: 'dummy' }"
+            title="Heatmap Demo"
+          >
+          </v-list-item>
+          <v-list-item
+            prepend-icon="mdi-chart-histogram"
+            :to="{ name: 'insights' }"
+            title="Insights"
+          >
+          </v-list-item>
           <v-list-item prepend-icon="mdi-logout" title="Logout" @click="logout">
           </v-list-item>
         </v-list>

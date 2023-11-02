@@ -12,6 +12,8 @@ import CategoryNews from "@/pages/news/CategoryNews.vue";
 import LocalNews from "@/pages/local-news/LocalNewsList.vue";
 import LocalNewsDetails from "@/pages/local-news/LocalNewsDetails.vue";
 
+import Insights from "@/pages/charts/Insights.vue";
+
 import Dummy from "@/pages/Dummy.vue";
 import PageNotFound from "@/pages/PageNotFound.vue";
 
@@ -84,6 +86,11 @@ export default [
     path: "/sign-up",
     component: SignUp,
     name: "signup",
+  },
+  {
+    path: "/insights",
+    component: Insights,
+    name: "insights",
   },
   {
     path: "/dummy",

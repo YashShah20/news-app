@@ -8,6 +8,10 @@ const getNewsDetails = (id) => {
   return api.get(`/news/${id}`);
 };
 
+const getNewsInsights = () => {
+  return api.get("/news/insights");
+};
+
 const addLocalNews = (news) => {
   return api.post("/news/add", news);
 };
@@ -23,6 +27,7 @@ const deleteLocalNews = (id) => {
 export {
   getLocalNews,
   getNewsDetails,
+  getNewsInsights,
   addLocalNews,
   updateLocalNews,
   deleteLocalNews,
